@@ -1620,11 +1620,16 @@ function updateAuthUI() {
         if (navUserRole) navUserRole.textContent = user.role ? user.role.split('/')[0].trim() : 'Guardian';
         if (appDisplayName) appDisplayName.textContent = user.name || user.email;
 
+        const appHeaderName = document.getElementById('app-header-name');
+        const appAvatar = document.getElementById('app-avatar-circle');
+        if (appHeaderName) appHeaderName.textContent = user.name || user.email;
+
         // Initials avatar
-        if (navUserAvatar && user.name) {
+        if (user.name) {
             const parts = user.name.split(' ');
             const initials = parts.length > 1 ? (parts[0][0] + parts[1][0]).toUpperCase() : parts[0].substring(0, 2).toUpperCase();
-            navUserAvatar.textContent = initials;
+            if (navUserAvatar) navUserAvatar.textContent = initials;
+            if (appAvatar) appAvatar.textContent = initials;
         }
     } else {
         if (btnLoginNav) btnLoginNav.style.display = 'inline-flex';
@@ -2033,4 +2038,38 @@ function initAuthSystem() {
 
     if (btnNavLogout) btnNavLogout.addEventListener('click', handleSignOut);
     if (btnAppLogout) btnAppLogout.addEventListener('click', handleSignOut);
+
+    // Landing Band and Footer CTA listeners
+    const btnBandStart = document.getElementById('btn-band-get-started');
+    const footerLinkLogin = document.getElementById('footer-link-login');
+    const footerLinkSignup = document.getElementById('footer-link-signup');
+
+    if (btnBandStart) {
+        btnBandStart.addEventListener('click', () => {
+            const user = getStoredUser();
+            if (user) {
+                const landingView = document.getElementById('view-landing');
+                const appConsoleView = document.getElementById('view-app-console');
+                if (landingView) landingView.style.display = 'none';
+                if (appConsoleView) appConsoleView.style.display = 'block';
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            } else {
+                openAuthModal('signup');
+            }
+        });
+    }
+
+    if (footerLinkLogin) {
+        footerLinkLogin.addEventListener('click', (e) => {
+            e.preventDefault();
+            openAuthModal('login');
+        });
+    }
+
+    if (footerLinkSignup) {
+        footerLinkSignup.addEventListener('click', (e) => {
+            e.preventDefault();
+            openAuthModal('signup');
+        });
+    }
 }

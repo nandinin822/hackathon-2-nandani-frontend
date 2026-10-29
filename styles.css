@@ -3282,3 +3282,725 @@ p {
     color: #ffffff;
     border-color: #ef4444;
 }
+
+
+/* ================= PPT SECTIONS: 01 CHALLENGE, 02 SOLUTION, 05 DELIVERABLES ================= */
+.landing-section {
+    padding: 4.5rem 0;
+    border-top: 1px solid var(--border-subtle, rgba(255, 255, 255, 0.08));
+    position: relative;
+}
+
+.sec-header-center {
+    text-align: center;
+    margin-bottom: 3.2rem;
+}
+
+.ppt-eyebrow {
+    font-size: 0.76rem;
+    font-weight: 850;
+    letter-spacing: 0.12em;
+    color: var(--accent-light, #8f93ff);
+    text-transform: uppercase;
+    margin-bottom: 0.55rem;
+}
+
+[data-theme="light"] .ppt-eyebrow {
+    color: #3a3fe0;
+}
+
+.ppt-sec-title {
+    font-family: 'Bricolage Grotesque', 'Outfit', sans-serif;
+    font-size: clamp(1.9rem, 4vw, 2.8rem);
+    font-weight: 800;
+    color: var(--text-primary);
+    letter-spacing: -0.035em;
+    margin: 0;
+}
+
+/* SECTION 1: THE CAREGIVER CHALLENGE */
+.challenge-layout {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: clamp(2rem, 4vw, 3.8rem);
+    align-items: center;
+}
+
+@media (max-width: 900px) {
+    .challenge-layout {
+        grid-template-columns: 1fr;
+    }
+}
+
+.challenge-visual-col {
+    text-align: center;
+}
+
+.senior-avatar-frame {
+    width: 240px;
+    height: 240px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 4px solid var(--border-medium, rgba(255, 255, 255, 0.18));
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
+    margin: 0 auto 1.2rem;
+    transition: transform 0.3s ease;
+}
+
+.senior-avatar-frame:hover {
+    transform: scale(1.03);
+}
+
+.senior-circle-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.challenge-caption {
+    font-size: 0.92rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+    max-width: 240px;
+    margin: 0 auto;
+    font-weight: 500;
+}
+
+.challenge-cards-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
+}
+
+@media (max-width: 600px) {
+    .challenge-cards-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.ppt-card {
+    background: var(--surface-color, #131728);
+    border: 1px solid var(--border-medium, rgba(255, 255, 255, 0.12));
+    border-radius: 20px;
+    padding: 1.6rem 1.4rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+[data-theme="light"] .ppt-card {
+    background: #ffffff;
+    border-color: rgba(0, 0, 0, 0.08);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+}
+
+.ppt-card:hover {
+    transform: translateY(-3px);
+    border-color: var(--accent-light, #8f93ff);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.25);
+}
+
+.card-icon-wrap {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    display: grid;
+    place-items: center;
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+}
+
+.icon-cyan {
+    background: rgba(6, 182, 212, 0.12);
+    color: #06b6d4;
+}
+
+.icon-amber {
+    background: rgba(245, 158, 11, 0.12);
+    color: #f59e0b;
+}
+
+.icon-orange {
+    background: rgba(249, 115, 22, 0.12);
+    color: #f97316;
+}
+
+.icon-blue {
+    background: rgba(59, 130, 246, 0.12);
+    color: #3b82f6;
+}
+
+.challenge-card h3 {
+    font-size: 1.15rem;
+    font-weight: 750;
+    margin: 0 0 0.45rem;
+    color: var(--text-primary);
+}
+
+.challenge-card p {
+    font-size: 0.88rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+    margin: 0;
+}
+
+/* SECTION 2: OUR SOLUTION */
+.solution-layout {
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: clamp(2rem, 4vw, 4rem);
+    align-items: center;
+}
+
+@media (max-width: 900px) {
+    .solution-layout {
+        grid-template-columns: 1fr;
+    }
+}
+
+.solution-feature-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.6rem;
+    margin-bottom: 2rem;
+}
+
+.sol-feature-item {
+    display: flex;
+    gap: 1.1rem;
+    align-items: flex-start;
+}
+
+.sol-icon-box {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: rgba(58, 63, 224, 0.15);
+    border: 1px solid rgba(58, 63, 224, 0.3);
+    color: var(--accent-light, #8f93ff);
+    display: grid;
+    place-items: center;
+    font-size: 1.15rem;
+    flex-shrink: 0;
+}
+
+[data-theme="light"] .sol-icon-box {
+    background: #e9eaff;
+    border-color: rgba(58, 63, 224, 0.2);
+    color: #3a3fe0;
+}
+
+.sol-text-group h3 {
+    font-size: 1.15rem;
+    font-weight: 750;
+    margin: 0 0 0.35rem;
+    color: var(--text-primary);
+}
+
+.sol-text-group p {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    line-height: 1.55;
+    margin: 0;
+}
+
+.ppt-status-buttons-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.85rem;
+}
+
+.ppt-status-btn-card {
+    padding: 0.9rem 1rem;
+    border-radius: 14px;
+    text-align: center;
+    color: #ffffff;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+    transition: transform 0.2s ease;
+}
+
+.ppt-status-btn-card:hover {
+    transform: translateY(-2px);
+}
+
+.btn-status-safe {
+    background: #1e3a5f;
+    border: 1.5px solid #2563eb;
+}
+
+.btn-status-warn {
+    background: #1e40af;
+    border: 1.5px solid #3b82f6;
+}
+
+.btn-status-emerg {
+    background: #0f172a;
+    border: 1.5px solid #ef4444;
+}
+
+.status-btn-title {
+    font-weight: 850;
+    font-size: 0.95rem;
+    display: block;
+    letter-spacing: 0.05em;
+}
+
+.btn-status-emerg .status-btn-title {
+    color: #f87171;
+}
+
+.status-btn-sub {
+    font-size: 0.72rem;
+    opacity: 0.85;
+    display: block;
+    margin-top: 0.2rem;
+}
+
+.solution-visual-col {
+    text-align: center;
+}
+
+.caregiver-oval-frame {
+    width: 100%;
+    max-width: 360px;
+    height: 250px;
+    border-radius: 125px;
+    overflow: hidden;
+    border: 4px solid var(--border-medium, rgba(255, 255, 255, 0.18));
+    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.35);
+    position: relative;
+    margin: 0 auto 1.2rem;
+    transition: transform 0.3s ease;
+}
+
+.caregiver-oval-frame:hover {
+    transform: scale(1.02);
+}
+
+.caregiver-oval-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.careway-trust-badge {
+    position: absolute;
+    bottom: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(11, 15, 26, 0.92);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(8px);
+    border-radius: 999px;
+    padding: 0.35rem 0.85rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #ffffff;
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.careway-trust-badge i {
+    color: #f43f5e;
+}
+
+.solution-caption {
+    font-size: 0.92rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+    max-width: 280px;
+    margin: 0 auto;
+    font-weight: 500;
+}
+
+/* SECTION 3: MVP DELIVERABLES */
+.deliverables-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(1.5rem, 3vw, 2.5rem);
+}
+
+@media (max-width: 800px) {
+    .deliverables-layout {
+        grid-template-columns: 1fr;
+    }
+}
+
+.sos-patient-card {
+    background: linear-gradient(145deg, #1d4ed8, #1e3a8a);
+    color: #ffffff;
+    border-radius: 24px;
+    padding: 2.2rem 2rem;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 20px 45px rgba(29, 78, 216, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.sos-patient-header {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    margin-bottom: 1.2rem;
+}
+
+.sos-icon-circle-badge {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: #ef4444;
+    color: #ffffff;
+    display: grid;
+    place-items: center;
+    font-size: 1.4rem;
+    box-shadow: 0 6px 18px rgba(239, 68, 68, 0.4);
+}
+
+.sos-badge-text {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-size: 2.2rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+}
+
+.sos-patient-card h3 {
+    font-size: 1.45rem;
+    font-weight: 800;
+    margin: 0 0 0.8rem;
+    color: #ffffff;
+}
+
+.sos-desc {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.9);
+    margin: 0 0 1.8rem;
+}
+
+.sos-feature-pills {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.sos-pill {
+    background: rgba(255, 255, 255, 0.16);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 999px;
+    padding: 0.35rem 0.85rem;
+    font-size: 0.78rem;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.history-audit-card {
+    background: var(--surface-color, #131728);
+    border: 1px solid var(--border-medium, rgba(255, 255, 255, 0.12));
+    border-radius: 24px;
+    padding: 2rem 2rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+[data-theme="light"] .history-audit-card {
+    background: #ffffff;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+    border-color: rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="light"] .history-audit-card {
+    background: #ffffff;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+    border-color: rgba(0, 0, 0, 0.08);
+}
+
+.history-card-top h3 {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-size: 1.35rem;
+    font-weight: 800;
+    margin: 0 0 0.4rem;
+    color: var(--text-primary);
+}
+
+.history-card-top p {
+    font-size: 0.88rem;
+    color: var(--text-secondary);
+    margin: 0 0 1.4rem;
+}
+
+.history-timeline-rows {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-bottom: 1.4rem;
+}
+
+.history-row {
+    display: grid;
+    grid-template-columns: 120px 85px 1fr;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    border-radius: 12px;
+    font-size: 0.88rem;
+    font-weight: 600;
+}
+
+.row-status-safe {
+    background: rgba(34, 197, 94, 0.1);
+    border: 1px solid rgba(34, 197, 94, 0.25);
+}
+
+.tag-safe {
+    color: #22c55e;
+    font-weight: 800;
+}
+
+.row-status-warn {
+    background: rgba(245, 158, 11, 0.1);
+    border: 1px solid rgba(245, 158, 11, 0.25);
+}
+
+.tag-warn {
+    color: #f59e0b;
+    font-weight: 800;
+}
+
+.row-status-emerg {
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.25);
+}
+
+.tag-emerg {
+    color: #ef4444;
+    font-weight: 800;
+}
+
+.history-timestamp {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.82rem;
+    color: var(--text-muted);
+}
+
+.history-event-text {
+    color: var(--text-primary);
+}
+
+.history-card-bottom-tags {
+    display: flex;
+    justify-content: space-between;
+    border-top: 1px solid var(--border-subtle, rgba(255, 255, 255, 0.08));
+    padding-top: 1rem;
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    font-weight: 600;
+}
+
+/* CALL TO ACTION BAND */
+.landing-band {
+    background: linear-gradient(135deg, #1e3a8a, #3a3fe0);
+    color: #ffffff;
+    text-align: center;
+    border-radius: 28px;
+    padding: 3.5rem 1.5rem;
+    margin: 4rem auto 2.5rem;
+    max-width: 1140px;
+    box-shadow: 0 20px 50px rgba(58, 63, 224, 0.25);
+}
+
+.landing-band h2 {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-size: clamp(2rem, 4.5vw, 2.8rem);
+    font-weight: 800;
+    margin: 0 0 0.8rem;
+}
+
+.landing-band p {
+    font-size: 1.05rem;
+    opacity: 0.9;
+    max-width: 32rem;
+    margin: 0 auto 1.8rem;
+    line-height: 1.6;
+}
+
+.btn-band-cta {
+    background: #ffffff;
+    color: #3a3fe0 !important;
+    font-weight: 700;
+    font-size: 1.05rem;
+    padding: 0.85rem 2rem;
+    border-radius: 12px;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+}
+
+.btn-band-cta:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 26px rgba(0, 0, 0, 0.3);
+}
+
+/* LANDING FOOTER */
+.landing-footer {
+    background: var(--surface-color, #0b0f17);
+    border-top: 1px solid var(--border-subtle, rgba(255, 255, 255, 0.08));
+    padding: 3rem 0 1.5rem;
+}
+
+.footer-inner {
+    display: flex;
+    justify-content: space-between;
+    gap: 2rem;
+    margin-bottom: 2.5rem;
+}
+
+@media (max-width: 700px) {
+    .footer-inner {
+        flex-direction: column;
+    }
+}
+
+.footer-brand-side .footer-desc {
+    color: var(--text-secondary);
+    font-size: 0.88rem;
+    max-width: 300px;
+    margin-top: 0.8rem;
+    line-height: 1.5;
+}
+
+.footer-links-side {
+    display: flex;
+    gap: 3rem;
+}
+
+.footer-link-group h4 {
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0 0 0.8rem;
+}
+
+.footer-link-group a {
+    display: block;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    text-decoration: none;
+    margin-bottom: 0.5rem;
+    transition: color 0.15s;
+}
+
+.footer-link-group a:hover {
+    color: var(--accent-light, #8f93ff);
+}
+
+.footer-bottom-bar {
+    border-top: 1px solid var(--border-subtle, rgba(255, 255, 255, 0.08));
+    padding-top: 1.2rem;
+}
+
+.footer-bottom-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.82rem;
+    color: var(--text-muted);
+}
+
+.back-to-top {
+    color: var(--text-secondary);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    transition: color 0.15s;
+}
+
+.back-to-top:hover {
+    color: var(--accent-light);
+}
+
+/* UNIFIED APP HEADER (NO REPEATED HEADERS OR DUPLICATE BUTTONS) */
+.app-header {
+    background: rgba(11, 15, 23, 0.95);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border-medium);
+    padding: 0.85rem 2rem;
+    transition: background 0.3s ease;
+}
+
+[data-theme="light"] .app-header {
+    background: rgba(255, 255, 255, 0.95);
+    border-bottom-color: rgba(0, 0, 0, 0.1);
+}
+
+.app-header .nav-container {
+    max-width: 1600px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+}
+
+.app-header-profile {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    background: var(--surface-color, rgba(255, 255, 255, 0.06));
+    border: 1px solid var(--border-medium, rgba(255, 255, 255, 0.15));
+    border-radius: 999px;
+    padding: 0.25rem 0.75rem 0.25rem 0.25rem;
+}
+
+[data-theme="light"] .app-header-profile {
+    background: #f8fafc;
+    border-color: #cbd5e1;
+}
+
+.app-avatar-circle {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #3A3FE0, #06B6D4);
+    color: #ffffff;
+    display: grid;
+    place-items: center;
+    font-weight: 800;
+    font-size: 0.72rem;
+}
+
+.app-caregiver-name {
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.btn-app-signout {
+    background: rgba(239, 68, 68, 0.12);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    border-radius: 10px;
+    color: #f87171;
+    padding: 0.45rem 0.95rem;
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    transition: all 0.2s ease;
+}
+
+.btn-app-signout:hover {
+    background: #ef4444;
+    color: #ffffff;
+    border-color: #ef4444;
+}
