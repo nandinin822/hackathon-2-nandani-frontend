@@ -4,6 +4,7 @@
  */
 
 document.addEventListener('DOMContentLoaded', () => {
+    initAuthSystem();
     initStep1Header();
     initStep2Hero();
     initTabs();
@@ -1209,12 +1210,6 @@ function initStep2Hero() {
     const btnLoginNav = document.getElementById('btn-login-nav');
     const btnSignupNav = document.getElementById('btn-signup-nav');
 
-    if (btnHeroStart) {
-        btnHeroStart.addEventListener('click', () => {
-            showAppConsole('tab-sentinel');
-        });
-    }
-
     if (btnHeroDemo) {
         btnHeroDemo.addEventListener('click', () => {
             const demoStage = document.getElementById('demo');
@@ -1232,20 +1227,6 @@ function initStep2Hero() {
         brandLandingLink.addEventListener('click', (e) => {
             e.preventDefault();
             showLanding();
-        });
-    }
-
-    if (btnLoginNav) {
-        btnLoginNav.onclick = null;
-        btnLoginNav.addEventListener('click', () => {
-            showAppConsole('tab-sentinel');
-        });
-    }
-
-    if (btnSignupNav) {
-        btnSignupNav.onclick = null;
-        btnSignupNav.addEventListener('click', () => {
-            showAppConsole('tab-sentinel');
         });
     }
 
@@ -1581,4 +1562,475 @@ function initHeroPoseCanvas() {
     }
 
     requestAnimationFrame(render);
+}
+
+
+// ========================================================
+// STEP 3: SUPABASE & CAREGIVER AUTHENTICATION SYSTEM
+// ========================================================
+let supabaseAuthClient = null;
+
+async function setupSupabaseClient() {
+    try {
+        const res = await fetch('/api/config');
+        const cfg = await res.json();
+        if (cfg.supabase_active && cfg.supabase_url && cfg.supabase_key && window.supabase) {
+            supabaseAuthClient = window.supabase.createClient(cfg.supabase_url, cfg.supabase_key);
+            console.log("AegisCare: Connected to Supabase Auth cloud.");
+        }
+    } catch (e) {
+        console.warn("AegisCare: Supabase cloud config notice:", e);
+    }
+}
+
+function getStoredUser() {
+    try {
+        const data = localStorage.getItem('aegis_auth_user');
+        return data ? JSON.parse(data) : null;
+    } catch (e) {
+        return null;
+    }
+}
+
+function setStoredUser(user) {
+    if (user) {
+        localStorage.setItem('aegis_auth_user', JSON.stringify(user));
+    } else {
+        localStorage.removeItem('aegis_auth_user');
+    }
+    updateAuthUI();
+}
+
+function updateAuthUI() {
+    const user = getStoredUser();
+    const btnLoginNav = document.getElementById('btn-login-nav');
+    const btnSignupNav = document.getElementById('btn-signup-nav');
+    const navUserPill = document.getElementById('nav-user-pill');
+    const navUserName = document.getElementById('nav-user-name');
+    const navUserRole = document.getElementById('nav-user-role');
+    const navUserAvatar = document.getElementById('nav-user-avatar');
+    const appDisplayName = document.getElementById('app-user-display-name');
+
+    if (user) {
+        if (btnLoginNav) btnLoginNav.style.display = 'none';
+        if (btnSignupNav) btnSignupNav.style.display = 'none';
+        if (navUserPill) navUserPill.style.display = 'flex';
+        
+        if (navUserName) navUserName.textContent = user.name || user.email;
+        if (navUserRole) navUserRole.textContent = user.role ? user.role.split('/')[0].trim() : 'Guardian';
+        if (appDisplayName) appDisplayName.textContent = user.name || user.email;
+
+        // Initials avatar
+        if (navUserAvatar && user.name) {
+            const parts = user.name.split(' ');
+            const initials = parts.length > 1 ? (parts[0][0] + parts[1][0]).toUpperCase() : parts[0].substring(0, 2).toUpperCase();
+            navUserAvatar.textContent = initials;
+        }
+    } else {
+        if (btnLoginNav) btnLoginNav.style.display = 'inline-flex';
+        if (btnSignupNav) btnSignupNav.style.display = 'inline-flex';
+        if (navUserPill) navUserPill.style.display = 'none';
+    }
+}
+
+function openAuthModal(mode = 'login', customNotice = null) {
+    const modal = document.getElementById('auth-modal');
+    if (!modal) return;
+
+    modal.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+
+    switchAuthTab(mode);
+
+    const banner = document.getElementById('auth-msg-banner');
+    if (banner) {
+        if (customNotice) {
+            banner.className = 'auth-msg-banner banner-error';
+            banner.innerHTML = `<i class="fa-solid fa-lock"></i> ${customNotice}`;
+            banner.style.display = 'flex';
+        } else {
+            banner.style.display = 'none';
+        }
+    }
+}
+
+function closeAuthModal() {
+    const modal = document.getElementById('auth-modal');
+    if (!modal) return;
+
+    modal.style.display = 'none';
+    document.body.style.overflow = '';
+}
+
+function switchAuthTab(tab) {
+    const tabLogin = document.getElementById('tab-btn-login');
+    const tabSignup = document.getElementById('tab-btn-signup');
+    const formLogin = document.getElementById('form-auth-login');
+    const formSignup = document.getElementById('form-auth-signup');
+    const banner = document.getElementById('auth-msg-banner');
+
+    if (banner) banner.style.display = 'none';
+
+    if (tab === 'signup') {
+        if (tabSignup) {
+            tabSignup.classList.add('active');
+            tabSignup.setAttribute('aria-selected', 'true');
+        }
+        if (tabLogin) {
+            tabLogin.classList.remove('active');
+            tabLogin.setAttribute('aria-selected', 'false');
+        }
+        if (formLogin) formLogin.style.display = 'none';
+        if (formSignup) formSignup.style.display = 'block';
+        const nameInput = document.getElementById('signup-name');
+        if (nameInput) nameInput.focus();
+    } else {
+        if (tabLogin) {
+            tabLogin.classList.add('active');
+            tabLogin.setAttribute('aria-selected', 'true');
+        }
+        if (tabSignup) {
+            tabSignup.classList.remove('active');
+            tabSignup.setAttribute('aria-selected', 'false');
+        }
+        if (formLogin) formLogin.style.display = 'block';
+        if (formSignup) formSignup.style.display = 'none';
+        const emailInput = document.getElementById('login-email');
+        if (emailInput) emailInput.focus();
+    }
+}
+
+function initAuthSystem() {
+    setupSupabaseClient();
+    updateAuthUI();
+
+    // Check if user is already authenticated
+    const initialUser = getStoredUser();
+    if (!initialUser) {
+        // Enforce Landing View by default
+        const landingView = document.getElementById('view-landing');
+        const appConsoleView = document.getElementById('view-app-console');
+        if (landingView) landingView.style.display = 'block';
+        if (appConsoleView) appConsoleView.style.display = 'none';
+    } else {
+        // If query param or hash requested app, allow it
+        if (window.location.hash === '#app' || window.location.search.includes('view=app')) {
+            const landingView = document.getElementById('view-landing');
+            const appConsoleView = document.getElementById('view-app-console');
+            if (landingView) landingView.style.display = 'none';
+            if (appConsoleView) appConsoleView.style.display = 'block';
+        }
+    }
+
+    // Modal Trigger Listeners
+    const btnLoginNav = document.getElementById('btn-login-nav');
+    const btnSignupNav = document.getElementById('btn-signup-nav');
+    const btnHeroStart = document.getElementById('btn-hero-start');
+    const btnCloseModal = document.getElementById('btn-close-auth-modal');
+    const authModal = document.getElementById('auth-modal');
+
+    if (btnLoginNav) {
+        btnLoginNav.onclick = (e) => {
+            e.preventDefault();
+            openAuthModal('login');
+        };
+    }
+
+    if (btnSignupNav) {
+        btnSignupNav.onclick = (e) => {
+            e.preventDefault();
+            openAuthModal('signup');
+        };
+    }
+
+    if (btnHeroStart) {
+        btnHeroStart.onclick = (e) => {
+            e.preventDefault();
+            const user = getStoredUser();
+            if (user) {
+                // User is authenticated, unlock console
+                const landingView = document.getElementById('view-landing');
+                const appConsoleView = document.getElementById('view-app-console');
+                if (landingView) landingView.style.display = 'none';
+                if (appConsoleView) appConsoleView.style.display = 'block';
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            } else {
+                // User must log in first
+                openAuthModal('login', 'Please log in or create an account to access the Sentinel Hub.');
+            }
+        };
+    }
+
+    if (btnCloseModal) {
+        btnCloseModal.addEventListener('click', closeAuthModal);
+    }
+
+    if (authModal) {
+        authModal.addEventListener('click', (e) => {
+            if (e.target === authModal) closeAuthModal();
+        });
+    }
+
+    // Switch Tab buttons inside modal
+    const tabBtnLogin = document.getElementById('tab-btn-login');
+    const tabBtnSignup = document.getElementById('tab-btn-signup');
+    const linkToSignup = document.getElementById('link-to-signup');
+    const linkToLogin = document.getElementById('link-to-login');
+
+    if (tabBtnLogin) tabBtnLogin.addEventListener('click', () => switchAuthTab('login'));
+    if (tabBtnSignup) tabBtnSignup.addEventListener('click', () => switchAuthTab('signup'));
+    if (linkToSignup) linkToSignup.addEventListener('click', (e) => { e.preventDefault(); switchAuthTab('signup'); });
+    if (linkToLogin) linkToLogin.addEventListener('click', (e) => { e.preventDefault(); switchAuthTab('login'); });
+
+    // Password visibility toggles
+    document.querySelectorAll('.btn-toggle-pw').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const targetId = btn.getAttribute('data-target');
+            const input = document.getElementById(targetId);
+            if (!input) return;
+            const isPw = input.type === 'password';
+            input.type = isPw ? 'text' : 'password';
+            btn.innerHTML = isPw ? '<i class="fa-solid fa-eye-slash"></i>' : '<i class="fa-solid fa-eye"></i>';
+        });
+    });
+
+    // Form Submissions
+    const formLogin = document.getElementById('form-auth-login');
+    const formSignup = document.getElementById('form-auth-signup');
+    const banner = document.getElementById('auth-msg-banner');
+
+    function showBanner(text, isError = false) {
+        if (!banner) return;
+        banner.className = `auth-msg-banner ${isError ? 'banner-error' : 'banner-success'}`;
+        banner.innerHTML = `<i class="fa-solid ${isError ? 'fa-triangle-exclamation' : 'fa-circle-check'}"></i> ${text}`;
+        banner.style.display = 'flex';
+    }
+
+    // 1. Handle Login
+    if (formLogin) {
+        formLogin.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('login-email').value.trim();
+            const password = document.getElementById('login-password').value;
+            const submitBtn = document.getElementById('btn-submit-login');
+
+            if (!email || !password) {
+                showBanner("Please fill in both email and password.", true);
+                return;
+            }
+
+            if (submitBtn) {
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Authenticating...';
+            }
+
+            try {
+                // Optional Supabase auth
+                if (supabaseAuthClient) {
+                    try {
+                        const { data, error } = await supabaseAuthClient.auth.signInWithPassword({ email, password });
+                        if (error) console.warn("Supabase auth warning:", error.message);
+                    } catch (err) {
+                        console.warn("Supabase auth bypass:", err);
+                    }
+                }
+
+                // Backend Auth Verification
+                const resp = await fetch('/api/auth/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+
+                const data = await resp.json();
+
+                if (!resp.ok) {
+                    showBanner(data.detail || "Invalid login credentials. Please try again.", true);
+                    if (submitBtn) {
+                        submitBtn.disabled = false;
+                        submitBtn.innerHTML = '<i class="fa-solid fa-arrow-right-to-bracket"></i> Log In to Sentinel Hub';
+                    }
+                    return;
+                }
+
+                // Success
+                showBanner(`Welcome back, ${data.user.name}! Unlocking Sentinel Hub...`, false);
+                setStoredUser(data.user);
+
+                setTimeout(() => {
+                    closeAuthModal();
+                    // Transition to App Console
+                    const landingView = document.getElementById('view-landing');
+                    const appConsoleView = document.getElementById('view-app-console');
+                    if (landingView) landingView.style.display = 'none';
+                    if (appConsoleView) appConsoleView.style.display = 'block';
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+                    if (submitBtn) {
+                        submitBtn.disabled = false;
+                        submitBtn.innerHTML = '<i class="fa-solid fa-arrow-right-to-bracket"></i> Log In to Sentinel Hub';
+                    }
+                }, 600);
+
+            } catch (err) {
+                showBanner("Network error during login: " + err.message, true);
+                if (submitBtn) {
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = '<i class="fa-solid fa-arrow-right-to-bracket"></i> Log In to Sentinel Hub';
+                }
+            }
+        });
+    }
+
+    // 2. Handle Sign Up / Get Started
+    if (formSignup) {
+        formSignup.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const name = document.getElementById('signup-name').value.trim();
+            const email = document.getElementById('signup-email').value.trim();
+            const role = document.getElementById('signup-role').value;
+            const password = document.getElementById('signup-password').value;
+            const submitBtn = document.getElementById('btn-submit-signup');
+
+            if (!name || !email || !password) {
+                showBanner("Please fill in all required fields.", true);
+                return;
+            }
+
+            if (password.length < 6) {
+                showBanner("Password must be at least 6 characters.", true);
+                return;
+            }
+
+            if (submitBtn) {
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Creating Account...';
+            }
+
+            try {
+                // Optional Supabase cloud signup
+                if (supabaseAuthClient) {
+                    try {
+                        const { data, error } = await supabaseAuthClient.auth.signUp({
+                            email,
+                            password,
+                            options: { data: { full_name: name, role } }
+                        });
+                        if (error) console.warn("Supabase signup warning:", error.message);
+                    } catch (err) {
+                        console.warn("Supabase signup bypass:", err);
+                    }
+                }
+
+                // Backend Registration
+                const resp = await fetch('/api/auth/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name, email, password, role })
+                });
+
+                const data = await resp.json();
+
+                if (!resp.ok) {
+                    showBanner(data.detail || "Registration failed. An account with this email may already exist.", true);
+                    if (submitBtn) {
+                        submitBtn.disabled = false;
+                        submitBtn.innerHTML = '<i class="fa-solid fa-user-plus"></i> Create Account & Unlock App';
+                    }
+                    return;
+                }
+
+                // Success
+                showBanner(`Account created! Welcome, ${data.user.name}. Entering Sentinel Hub...`, false);
+                setStoredUser(data.user);
+
+                setTimeout(() => {
+                    closeAuthModal();
+                    // Transition to App Console
+                    const landingView = document.getElementById('view-landing');
+                    const appConsoleView = document.getElementById('view-app-console');
+                    if (landingView) landingView.style.display = 'none';
+                    if (appConsoleView) appConsoleView.style.display = 'block';
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+                    if (submitBtn) {
+                        submitBtn.disabled = false;
+                        submitBtn.innerHTML = '<i class="fa-solid fa-user-plus"></i> Create Account & Unlock App';
+                    }
+                }, 600);
+
+            } catch (err) {
+                showBanner("Network error during sign up: " + err.message, true);
+                if (submitBtn) {
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = '<i class="fa-solid fa-user-plus"></i> Create Account & Unlock App';
+                }
+            }
+        });
+    }
+
+    // 3. Handle 1-Click Caregiver Demo Access
+    const btnDemo = document.getElementById('btn-demo-caregiver');
+    if (btnDemo) {
+        btnDemo.addEventListener('click', async () => {
+            showBanner("Logging in as Verified Demo Caregiver...", false);
+            try {
+                const resp = await fetch('/api/auth/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email: 'caregiver@family.org', password: 'password123' })
+                });
+                const data = await resp.json();
+                if (resp.ok && data.user) {
+                    setStoredUser(data.user);
+                } else {
+                    setStoredUser({
+                        id: 'usr_demo_1',
+                        name: 'Sarah Connor',
+                        email: 'caregiver@family.org',
+                        role: 'Family Member / Guardian'
+                    });
+                }
+            } catch (e) {
+                setStoredUser({
+                    id: 'usr_demo_1',
+                    name: 'Sarah Connor',
+                    email: 'caregiver@family.org',
+                    role: 'Family Member / Guardian'
+                });
+            }
+
+            setTimeout(() => {
+                closeAuthModal();
+                const landingView = document.getElementById('view-landing');
+                const appConsoleView = document.getElementById('view-app-console');
+                if (landingView) landingView.style.display = 'none';
+                if (appConsoleView) appConsoleView.style.display = 'block';
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }, 450);
+        });
+    }
+
+    // 4. Handle Sign Out (Both Navbar & App Return Bar)
+    function handleSignOut() {
+        if (supabaseAuthClient) {
+            try { supabaseAuthClient.auth.signOut(); } catch (e) {}
+        }
+        setStoredUser(null);
+
+        // Hide app console, reveal landing page
+        const landingView = document.getElementById('view-landing');
+        const appConsoleView = document.getElementById('view-app-console');
+        if (landingView) landingView.style.display = 'block';
+        if (appConsoleView) appConsoleView.style.display = 'none';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+
+        alert("Signed out successfully. You have returned to the AegisCare AI Landing Page.");
+    }
+
+    const btnNavLogout = document.getElementById('btn-nav-logout');
+    const btnAppLogout = document.getElementById('btn-app-logout');
+
+    if (btnNavLogout) btnNavLogout.addEventListener('click', handleSignOut);
+    if (btnAppLogout) btnAppLogout.addEventListener('click', handleSignOut);
 }

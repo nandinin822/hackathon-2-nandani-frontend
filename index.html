@@ -15,6 +15,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <link rel="stylesheet" href="styles.css">
+    <!-- Supabase JS Client v2 CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
     <!-- ================= TOP LANDING HEADER (STEP 1) ================= -->
@@ -70,6 +72,18 @@
                     <i class="fa-solid fa-user-plus"></i>
                     <span id="nav-signup-text">Get Started</span>
                 </button>
+
+                <!-- Authenticated User Profile Pill (Visible when logged in) -->
+                <div class="nav-user-pill" id="nav-user-pill" style="display: none;">
+                    <div class="user-avatar-circle" id="nav-user-avatar">SC</div>
+                    <div class="user-details-mini">
+                        <span class="user-name-text" id="nav-user-name">Sarah Connor</span>
+                        <span class="user-role-text" id="nav-user-role">Guardian</span>
+                    </div>
+                    <button type="button" class="btn-nav-logout" id="btn-nav-logout" title="Sign Out">
+                        <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                    </button>
+                </div>
             </div>
         </div>
     </header>
@@ -214,10 +228,20 @@
     <div id="view-app-console" class="app-console-view" style="display: none;">
         <!-- Top App Banner with Back to Landing Link -->
         <div class="app-return-bar">
-            <button type="button" class="btn-return-landing" id="btn-return-landing">
-                <i class="fa-solid fa-arrow-left"></i> Back to Landing Page
-            </button>
-            <span class="app-session-tag"><i class="fa-solid fa-circle-check text-success"></i> Caregiver Sentinel Console Active</span>
+            <div class="return-bar-left">
+                <button type="button" class="btn-return-landing" id="btn-return-landing">
+                    <i class="fa-solid fa-arrow-left"></i> Back to Landing Page
+                </button>
+                <span class="app-session-tag"><i class="fa-solid fa-circle-check text-success"></i> Caregiver Sentinel Console Active</span>
+            </div>
+            <div class="return-bar-right">
+                <span class="active-caregiver-badge" id="app-caregiver-badge">
+                    <i class="fa-solid fa-shield-cat"></i> <span id="app-user-display-name">Guardian Sarah</span>
+                </span>
+                <button type="button" class="btn-app-logout" id="btn-app-logout">
+                    <i class="fa-solid fa-arrow-right-from-bracket"></i> Sign Out
+                </button>
+            </div>
         </div>
 
         <!-- Header Navigation -->
@@ -1021,6 +1045,144 @@
             <p>&copy; 2026 AegisCare AI &bull; Intelligent Edge Vision Guardian for Elderly Loved Ones. Zero-lag CPU Execution.</p>
         </div>
     </footer>
+    </div>
+
+
+    <!-- ================= SUPABASE AUTHENTICATION MODAL POPUP ================= -->
+    <div class="auth-modal-backdrop" id="auth-modal" style="display: none;" role="dialog" aria-modal="true" aria-labelledby="auth-modal-title">
+        <div class="auth-modal-card">
+            <!-- Modal Header -->
+            <div class="auth-modal-header">
+                <div class="auth-brand-badge">
+                    <div class="brand-logo sm-logo">
+                        <i class="fa-solid fa-shield-heart"></i>
+                    </div>
+                    <span class="brand-title-sm">AegisCare<span class="accent-text">AI</span></span>
+                </div>
+                <button type="button" class="auth-modal-close" id="btn-close-auth-modal" aria-label="Close modal">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <!-- Tab Switcher (Log In / Get Started) -->
+            <div class="auth-tabs" role="tablist">
+                <button type="button" class="auth-tab-btn active" id="tab-btn-login" role="tab" aria-selected="true">
+                    <i class="fa-solid fa-arrow-right-to-bracket"></i> Log In
+                </button>
+                <button type="button" class="auth-tab-btn" id="tab-btn-signup" role="tab" aria-selected="false">
+                    <i class="fa-solid fa-user-plus"></i> Get Started (Sign Up)
+                </button>
+            </div>
+
+            <!-- Live Alert / Feedback Banner -->
+            <div class="auth-msg-banner" id="auth-msg-banner" style="display: none;"></div>
+
+            <!-- Form 1: Log In Mode -->
+            <form id="form-auth-login" class="auth-form-panel">
+                <div class="form-title-group">
+                    <h3 id="auth-modal-title">Caregiver Log In</h3>
+                    <p class="auth-sub">Enter your email and password to access the Sentinel Hub.</p>
+                </div>
+
+                <div class="auth-field-group">
+                    <label for="login-email">Email or Username</label>
+                    <div class="input-with-icon">
+                        <i class="fa-solid fa-envelope input-icon"></i>
+                        <input type="text" id="login-email" class="auth-input" placeholder="caregiver@family.org" required autocomplete="username">
+                    </div>
+                </div>
+
+                <div class="auth-field-group">
+                    <div class="label-row">
+                        <label for="login-password">Password</label>
+                    </div>
+                    <div class="input-with-icon">
+                        <i class="fa-solid fa-lock input-icon"></i>
+                        <input type="password" id="login-password" class="auth-input" placeholder="••••••••" required autocomplete="current-password">
+                        <button type="button" class="btn-toggle-pw" data-target="login-password" tabindex="-1"><i class="fa-solid fa-eye"></i></button>
+                    </div>
+                </div>
+
+                <div class="auth-actions-row">
+                    <label class="remember-checkbox">
+                        <input type="checkbox" id="login-remember" checked>
+                        <span>Remember session on this device</span>
+                    </label>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-auth-submit" id="btn-submit-login">
+                    <i class="fa-solid fa-arrow-right-to-bracket"></i>
+                    <span>Log In to Sentinel Hub</span>
+                </button>
+
+                <!-- 1-Click Caregiver Demo Access -->
+                <div class="auth-demo-divider">
+                    <span>or instant evaluation</span>
+                </div>
+                <button type="button" class="btn btn-secondary btn-demo-access" id="btn-demo-caregiver">
+                    <i class="fa-solid fa-user-shield text-cyan"></i>
+                    <span>1-Click Caregiver Demo Access</span>
+                </button>
+
+                <p class="auth-footer-note">
+                    New caregiver? <a href="#" id="link-to-signup">Click here to Sign Up</a>
+                </p>
+            </form>
+
+            <!-- Form 2: Sign Up / Get Started Mode -->
+            <form id="form-auth-signup" class="auth-form-panel" style="display: none;">
+                <div class="form-title-group">
+                    <h3>Get Started with AegisCare</h3>
+                    <p class="auth-sub">Create your caregiver account for intelligent vision monitoring.</p>
+                </div>
+
+                <div class="auth-field-group">
+                    <label for="signup-name">Full Name</label>
+                    <div class="input-with-icon">
+                        <i class="fa-solid fa-user input-icon"></i>
+                        <input type="text" id="signup-name" class="auth-input" placeholder="Sarah Connor" required autocomplete="name">
+                    </div>
+                </div>
+
+                <div class="auth-field-group">
+                    <label for="signup-email">Email Address</label>
+                    <div class="input-with-icon">
+                        <i class="fa-solid fa-envelope input-icon"></i>
+                        <input type="email" id="signup-email" class="auth-input" placeholder="sarah@familycare.org" required autocomplete="email">
+                    </div>
+                </div>
+
+                <div class="auth-field-group">
+                    <label for="signup-role">Caregiver Role</label>
+                    <div class="input-with-icon">
+                        <i class="fa-solid fa-hospital-user input-icon"></i>
+                        <select id="signup-role" class="auth-input">
+                            <option value="Family Member / Guardian" selected>Family Member / Guardian</option>
+                            <option value="Home Nurse / Clinical Caregiver">Home Nurse / Clinical Caregiver</option>
+                            <option value="Assisted Living Facility Staff">Assisted Living Facility Staff</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="auth-field-group">
+                    <label for="signup-password">Create Password</label>
+                    <div class="input-with-icon">
+                        <i class="fa-solid fa-lock input-icon"></i>
+                        <input type="password" id="signup-password" class="auth-input" placeholder="At least 6 characters" required autocomplete="new-password">
+                        <button type="button" class="btn-toggle-pw" data-target="signup-password" tabindex="-1"><i class="fa-solid fa-eye"></i></button>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-auth-submit" id="btn-submit-signup">
+                    <i class="fa-solid fa-user-plus"></i>
+                    <span>Create Account &amp; Unlock App</span>
+                </button>
+
+                <p class="auth-footer-note">
+                    Already registered? <a href="#" id="link-to-login">Log in here</a>
+                </p>
+            </form>
+        </div>
     </div>
 
     <script src="app.js"></script>
