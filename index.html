@@ -9,7 +9,7 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;700;800&family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
     
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -74,9 +74,154 @@
         </div>
     </header>
 
+    <!-- ================= LANDING PAGE VIEW (STEP 2: HERO SECTION) ================= -->
+    <div id="view-landing" class="landing-page-root">
+        <main class="landing-wrap">
+            <!-- Hero Section -->
+            <section class="landing-hero" id="hero-section">
+                <!-- Left Column: Copy & Actions -->
+                <div class="hero-copy">
+                    <div class="eyebrow" id="hero-eyebrow">
+                        <span class="eyebrow-dot" aria-hidden="true"></span>
+                        <span id="hero-eyebrow-text">ELDER-CARE VISION GUARDIAN</span>
+                    </div>
 
-    <!-- Header Navigation -->
-    <header class="app-header">
+                    <h1 id="hero-headline">
+                        Intelligent Elder-Care Monitoring &amp; Real-Time Safety Guardian
+                    </h1>
+
+                    <p class="lead" id="hero-lead">
+                        An AI guardian that continuously watches camera feeds, spots unassisted bed-exits and sudden falls, and dispatches instant visual Telegram alerts so family never worries in silence.
+                    </p>
+
+                    <div class="cta">
+                        <button type="button" class="btn pri" id="btn-hero-start">
+                            <i class="fa-solid fa-play"></i>
+                            <span id="hero-cta-primary-text">Start Live Guardian</span>
+                        </button>
+                        <button type="button" class="btn gh" id="btn-hero-demo">
+                            <i class="fa-solid fa-circle-play"></i>
+                            <span id="hero-cta-secondary-text">See How It Works</span>
+                        </button>
+                    </div>
+
+                    <p class="sub" id="hero-subtext">
+                        Zero wearables required. 100% on-device CPU inference preserves dignity and privacy.
+                    </p>
+
+                    <!-- ScanReview Hero Proof Badges -->
+                    <div class="hero-proof" aria-label="Key product benefits">
+                        <span>
+                            <svg viewBox="0 0 20 20" aria-hidden="true"><path d="m4 10 4 4 8-8"></path></svg>
+                            <span id="proof-cpu">30+ FPS Pure CPU</span>
+                        </span>
+                        <span>
+                            <svg viewBox="0 0 20 20" aria-hidden="true"><path d="m4 10 4 4 8-8"></path></svg>
+                            <span id="proof-sens">98.3% Fall Sensitivity</span>
+                        </span>
+                        <span>
+                            <svg viewBox="0 0 20 20" aria-hidden="true"><path d="m4 10 4 4 8-8"></path></svg>
+                            <span id="proof-alerts">Instant Telegram Alerts</span>
+                        </span>
+                    </div>
+
+                    <!-- PPT Slide 1 Detection Status Levels Legend Strip -->
+                    <div class="hero-status-legend" aria-label="PPT Status Levels">
+                        <div class="legend-chip legend-safe">
+                            <span class="legend-indicator"></span>
+                            <div>
+                                <b>SAFE</b>
+                                <small>Normal Activity</small>
+                            </div>
+                        </div>
+                        <div class="legend-chip legend-warning">
+                            <span class="legend-indicator"></span>
+                            <div>
+                                <b>WARNING</b>
+                                <small>Bed-Exit Anomaly</small>
+                            </div>
+                        </div>
+                        <div class="legend-chip legend-emergency">
+                            <span class="legend-indicator"></span>
+                            <div>
+                                <b>EMERGENCY</b>
+                                <small>Immediate Fall Alert</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column: ScanReview Interactive Stage Preview -->
+                <div class="stage" id="demo" aria-label="Live product preview: Pose tracking and telegram emergency alerts">
+                    <div class="stage-heading">
+                        <span class="stage-kicker">
+                            <i class="fa-solid fa-shield-halved"></i> LIVE PRODUCT PREVIEW
+                        </span>
+                        <span class="stage-live">
+                            <i aria-hidden="true"></i> AUTO DEMO
+                        </span>
+                    </div>
+
+                    <!-- ScanReview Slot with Manager/Caregiver Phone -->
+                    <div class="slot">
+                        <div class="manager-device" aria-label="Caregiver phone alert preview">
+                            <div class="manager-screen">
+                                <div class="manager-topline">
+                                    <span>AEGISCARE TELEGRAM ALERT</span>
+                                    <span class="manager-status">LIVE SYNC</span>
+                                </div>
+                                <div class="wait" id="stage-device-label">Caregiver's phone</div>
+                                <div class="note show" role="status" id="stage-alert-note">
+                                    <span class="mark alert-mark">🚨</span>
+                                    <div>
+                                        <b id="stage-note-title">EMERGENCY: Fall Detected</b>
+                                        <small id="stage-note-desc">Living Room Cam 01 · 98.3% BiLSTM Risk · Telegram Snapshot Sent</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Sentinel Vision Live HUD Frame -->
+                    <div class="stage-vision-hud">
+                        <div class="stage-feed-header">
+                            <span class="pill"><i class="fa-solid fa-video"></i> Living Room Sentinel Cam</span>
+                            <span class="fps-pill" id="stage-fps-counter">38.2 FPS (CPU)</span>
+                        </div>
+                        
+                        <!-- Interactive Canvas with real-time Pose Estimation -->
+                        <div class="stage-canvas-container">
+                            <canvas id="hero-pose-canvas" width="460" height="230"></canvas>
+                            <div class="stage-canvas-overlay">
+                                <span class="canvas-tag tag-model"><i class="fa-solid fa-microchip"></i> MediaPipe 33-pt</span>
+                                <span class="canvas-tag tag-risk" id="stage-risk-pill">Risk: 98.3%</span>
+                                <span class="canvas-tag tag-status" id="stage-status-pill">● EMERGENCY</span>
+                            </div>
+                        </div>
+
+                        <div class="stage-feed-footer">
+                            <span><i class="fa-solid fa-check"></i> On-Device Vision</span>
+                            <span><i class="fa-solid fa-lock"></i> No Cloud Video Leak</span>
+                            <span><i class="fa-solid fa-bolt"></i> &lt;120ms Latency</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- ================= MULTI-TAB APPLICATION CONSOLE (ACCESSED VIA LOGIN / START) ================= -->
+    <div id="view-app-console" class="app-console-view" style="display: none;">
+        <!-- Top App Banner with Back to Landing Link -->
+        <div class="app-return-bar">
+            <button type="button" class="btn-return-landing" id="btn-return-landing">
+                <i class="fa-solid fa-arrow-left"></i> Back to Landing Page
+            </button>
+            <span class="app-session-tag"><i class="fa-solid fa-circle-check text-success"></i> Caregiver Sentinel Console Active</span>
+        </div>
+
+        <!-- Header Navigation -->
+        <header class="app-header">
         <div class="nav-container">
             <div class="brand-group">
                 <div class="brand-logo">
@@ -876,6 +1021,7 @@
             <p>&copy; 2026 AegisCare AI &bull; Intelligent Edge Vision Guardian for Elderly Loved Ones. Zero-lag CPU Execution.</p>
         </div>
     </footer>
+    </div>
 
     <script src="app.js"></script>
 </body>

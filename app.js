@@ -5,6 +5,7 @@
 
 document.addEventListener('DOMContentLoaded', () => {
     initStep1Header();
+    initStep2Hero();
     initTabs();
     initSentinelHub();
     initVideoLab();
@@ -1028,7 +1029,16 @@ function initStep1Header() {
             signup: "Get Started",
             themeDark: "Dark",
             themeLight: "Light",
-            sentinelActive: "Sentinel Active"
+            sentinelActive: "Sentinel Active",
+            eyebrow: "ELDER-CARE VISION GUARDIAN",
+            headline: "Intelligent Elder-Care Monitoring & Real-Time Safety Guardian",
+            lead: "An AI guardian that continuously watches camera feeds, spots unassisted bed-exits and sudden falls, and dispatches instant visual Telegram alerts so family never worries in silence.",
+            ctaPrimary: "Start Live Guardian",
+            ctaSecondary: "See How It Works",
+            subtext: "Zero wearables required. 100% on-device CPU inference preserves dignity and privacy.",
+            proofCpu: "30+ FPS Pure CPU",
+            proofSens: "98.3% Fall Sensitivity",
+            proofAlerts: "Instant Telegram Alerts"
         },
         es: {
             langName: "Español",
@@ -1036,7 +1046,16 @@ function initStep1Header() {
             signup: "Empezar",
             themeDark: "Oscuro",
             themeLight: "Claro",
-            sentinelActive: "Centinela Activo"
+            sentinelActive: "Centinela Activo",
+            eyebrow: "GUARDIÁN DE VISIÓN PARA ANCIANOS",
+            headline: "Monitoreo Inteligente para Adultos Mayores y Guardián en Tiempo Real",
+            lead: "Un guardián inteligente que vigila las cámaras, detecta caídas y salidas de cama sin asistencia, y envía alertas instantáneas por Telegram para que la familia nunca se preocupe en silencio.",
+            ctaPrimary: "Iniciar Guardián en Vivo",
+            ctaSecondary: "Cómo Funciona",
+            subtext: "Sin dispositivos corporales. La inferencia 100% en CPU local preserva la privacidad y dignidad.",
+            proofCpu: "30+ FPS en CPU pura",
+            proofSens: "98.3% de Sensibilidad",
+            proofAlerts: "Alertas Telegram al instante"
         },
         de: {
             langName: "Deutsch",
@@ -1044,7 +1063,16 @@ function initStep1Header() {
             signup: "Loslegen",
             themeDark: "Dunkel",
             themeLight: "Hell",
-            sentinelActive: "Wächter Aktiv"
+            sentinelActive: "Wächter Aktiv",
+            eyebrow: "VISION-WÄCHTER FÜR SENIOREN",
+            headline: "Intelligente Seniorenpflege & Echtzeit-Sicherheitswächter",
+            lead: "Ein intelligenter KI-Wächter, der Kamera-Feeds überwacht, Stürze und unassistierte Bettabgänge erkennt und sofortige visuelle Telegram-Warnungen an Angehörige sendet.",
+            ctaPrimary: "Live-Wächter Starten",
+            ctaSecondary: "So Funktioniert Es",
+            subtext: "Keine Wearables nötig. 100% On-Device CPU-Inferenz schützt die Privatsphäre und Würde.",
+            proofCpu: "30+ FPS Reine CPU",
+            proofSens: "98.3% Sturz-Sensitivität",
+            proofAlerts: "Sofortige Telegram-Warnungen"
         }
     };
 
@@ -1061,6 +1089,27 @@ function initStep1Header() {
         const signupBtnText = document.getElementById('nav-signup-text');
         if (loginBtnText) loginBtnText.textContent = t.login;
         if (signupBtnText) signupBtnText.textContent = t.signup;
+
+        // Hero Elements Translation
+        const eyebrowEl = document.getElementById('hero-eyebrow-text');
+        const headlineEl = document.getElementById('hero-headline');
+        const leadEl = document.getElementById('hero-lead');
+        const ctaPriEl = document.getElementById('hero-cta-primary-text');
+        const ctaSecEl = document.getElementById('hero-cta-secondary-text');
+        const subtextEl = document.getElementById('hero-subtext');
+        const proofCpuEl = document.getElementById('proof-cpu');
+        const proofSensEl = document.getElementById('proof-sens');
+        const proofAlertsEl = document.getElementById('proof-alerts');
+
+        if (eyebrowEl && t.eyebrow) eyebrowEl.textContent = t.eyebrow;
+        if (headlineEl && t.headline) headlineEl.textContent = t.headline;
+        if (leadEl && t.lead) leadEl.textContent = t.lead;
+        if (ctaPriEl && t.ctaPrimary) ctaPriEl.textContent = t.ctaPrimary;
+        if (ctaSecEl && t.ctaSecondary) ctaSecEl.textContent = t.ctaSecondary;
+        if (subtextEl && t.subtext) subtextEl.textContent = t.subtext;
+        if (proofCpuEl && t.proofCpu) proofCpuEl.textContent = t.proofCpu;
+        if (proofSensEl && t.proofSens) proofSensEl.textContent = t.proofSens;
+        if (proofAlertsEl && t.proofAlerts) proofAlertsEl.textContent = t.proofAlerts;
 
         langItems.forEach(item => {
             item.classList.toggle('active', item.dataset.lang === lang);
@@ -1123,4 +1172,413 @@ function initStep1Header() {
             alert('Step 1 Header Active! Get Started modal will be connected in Step 3.');
         });
     }
+}
+
+
+// ========================================================
+// STEP 2: SCANREVIEW HERO & LIVE AUTO DEMO SIMULATION
+// ========================================================
+function initStep2Hero() {
+    const landingView = document.getElementById('view-landing');
+    const appConsoleView = document.getElementById('view-app-console');
+
+    function showLanding() {
+        if (landingView) landingView.style.display = 'block';
+        if (appConsoleView) appConsoleView.style.display = 'none';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function showAppConsole(tabId) {
+        if (landingView) landingView.style.display = 'none';
+        if (appConsoleView) appConsoleView.style.display = 'block';
+        if (tabId && typeof switchTab === 'function') {
+            switchTab(tabId);
+        }
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Expose router functions globally
+    window.showLandingView = showLanding;
+    window.showAppConsoleView = showAppConsole;
+
+    // View Switching event listeners
+    const btnHeroStart = document.getElementById('btn-hero-start');
+    const btnHeroDemo = document.getElementById('btn-hero-demo');
+    const btnReturnLanding = document.getElementById('btn-return-landing');
+    const brandLandingLink = document.getElementById('landing-brand-link');
+    const btnLoginNav = document.getElementById('btn-login-nav');
+    const btnSignupNav = document.getElementById('btn-signup-nav');
+
+    if (btnHeroStart) {
+        btnHeroStart.addEventListener('click', () => {
+            showAppConsole('tab-sentinel');
+        });
+    }
+
+    if (btnHeroDemo) {
+        btnHeroDemo.addEventListener('click', () => {
+            const demoStage = document.getElementById('demo');
+            if (demoStage) {
+                demoStage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        });
+    }
+
+    if (btnReturnLanding) {
+        btnReturnLanding.addEventListener('click', showLanding);
+    }
+
+    if (brandLandingLink) {
+        brandLandingLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            showLanding();
+        });
+    }
+
+    if (btnLoginNav) {
+        btnLoginNav.onclick = null;
+        btnLoginNav.addEventListener('click', () => {
+            showAppConsole('tab-sentinel');
+        });
+    }
+
+    if (btnSignupNav) {
+        btnSignupNav.onclick = null;
+        btnSignupNav.addEventListener('click', () => {
+            showAppConsole('tab-sentinel');
+        });
+    }
+
+    // Check if URL specifies app mode
+    if (window.location.hash === '#app' || window.location.search.includes('view=app')) {
+        showAppConsole();
+    }
+
+    // Live Pose Skeleton Canvas Simulation
+    initHeroPoseCanvas();
+}
+
+function initHeroPoseCanvas() {
+    const canvas = document.getElementById('hero-pose-canvas');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    const fpsCounter = document.getElementById('stage-fps-counter');
+    const riskPill = document.getElementById('stage-risk-pill');
+    const statusPill = document.getElementById('stage-status-pill');
+    const noteCard = document.getElementById('stage-alert-note');
+    const noteTitle = document.getElementById('stage-note-title');
+    const noteDesc = document.getElementById('stage-note-desc');
+
+    let startTime = performance.now();
+    let mouseX = -100;
+    let mouseY = -100;
+
+    canvas.addEventListener('mousemove', (e) => {
+        const rect = canvas.getBoundingClientRect();
+        mouseX = (e.clientX - rect.left) * (canvas.width / rect.width);
+        mouseY = (e.clientY - rect.top) * (canvas.height / rect.height);
+    });
+
+    canvas.addEventListener('mouseleave', () => {
+        mouseX = -100;
+        mouseY = -100;
+    });
+
+    function render(now) {
+        const elapsed = (now - startTime) / 1000;
+        const cycle = elapsed % 12; // 12-second comprehensive cycle
+
+        const W = canvas.width;
+        const H = canvas.height;
+
+        // Clear canvas
+        ctx.fillStyle = '#060913';
+        ctx.fillRect(0, 0, W, H);
+
+        // Draw camera grid lines
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.04)';
+        ctx.lineWidth = 1;
+        for (let x = 40; x < W; x += 40) {
+            ctx.beginPath();
+            ctx.moveTo(x, 0);
+            ctx.lineTo(x, H);
+            ctx.stroke();
+        }
+        for (let y = 30; y < H; y += 30) {
+            ctx.beginPath();
+            ctx.moveTo(0, y);
+            ctx.lineTo(W, y);
+            ctx.stroke();
+        }
+
+        // Draw room perspective (Floor line & Bed outline)
+        ctx.strokeStyle = 'rgba(58, 63, 224, 0.15)';
+        ctx.lineWidth = 1.5;
+        // Floor line
+        ctx.beginPath();
+        ctx.moveTo(0, H - 35);
+        ctx.lineTo(W, H - 35);
+        ctx.stroke();
+
+        // Bed zone indicator
+        ctx.fillStyle = 'rgba(58, 63, 224, 0.06)';
+        ctx.fillRect(40, H - 120, 140, 85);
+        ctx.strokeRect(40, H - 120, 140, 85);
+        ctx.fillStyle = 'rgba(148, 163, 184, 0.4)';
+        ctx.font = '9px JetBrains Mono, monospace';
+        ctx.fillText('DESIGNATED BED ZONE', 48, H - 105);
+
+        // Determine current phase
+        let phase = 'SAFE';
+        let statusColor = '#22c55e';
+        let riskScore = 12.4;
+        let tInterpolate = 0;
+
+        // Keypoint positions
+        let headX = W * 0.55, headY = 65;
+        let spineX = W * 0.55, spineY = 100;
+        let hipX = W * 0.55, hipY = 135;
+        let leftKneeX = W * 0.52, leftKneeY = 175;
+        let rightKneeX = W * 0.58, rightKneeY = 175;
+        let leftAnkleX = W * 0.51, leftAnkleY = 215;
+        let rightAnkleX = W * 0.59, rightAnkleY = 215;
+        let leftShoulderX = W * 0.49, leftShoulderY = 85;
+        let rightShoulderX = W * 0.61, rightShoulderY = 85;
+        let leftHandX = W * 0.46, leftHandY = 125;
+        let rightHandX = W * 0.64, rightHandY = 125;
+
+        if (cycle < 4.0) {
+            // PHASE 1: SAFE (Walking & gentle swaying)
+            phase = 'SAFE';
+            statusColor = '#22c55e';
+            riskScore = 12.0 + Math.sin(cycle * 3) * 3.5;
+            
+            const sway = Math.sin(cycle * 3) * 6;
+            headX += sway;
+            spineX += sway * 0.8;
+            hipX += sway * 0.6;
+            leftAnkleY += Math.sin(cycle * 6) * 4;
+            rightAnkleY -= Math.sin(cycle * 6) * 4;
+
+            if (statusPill) {
+                statusPill.textContent = '● SAFE';
+                statusPill.style.background = '#22c55e';
+                statusPill.style.boxShadow = '0 0 10px rgba(34, 197, 94, 0.6)';
+            }
+            if (riskPill) {
+                riskPill.textContent = 'Risk: ' + riskScore.toFixed(1) + '%';
+                riskPill.style.background = 'rgba(34, 197, 94, 0.2)';
+                riskPill.style.color = '#86efac';
+                riskPill.style.borderColor = 'rgba(34, 197, 94, 0.4)';
+            }
+            if (noteCard) {
+                noteCard.style.borderLeftColor = '#22c55e';
+                const mark = noteCard.querySelector('.alert-mark');
+                if (mark) {
+                    mark.textContent = '🛡️';
+                    mark.style.background = 'rgba(34, 197, 94, 0.2)';
+                    mark.style.color = '#22c55e';
+                }
+            }
+            if (noteTitle) noteTitle.textContent = 'SAFE: Normal Posture';
+            if (noteDesc) noteDesc.textContent = 'Living Room · 12.4% Risk · Continuous CPU sentinel active';
+
+        } else if (cycle < 7.5) {
+            // PHASE 2: WARNING (Unassisted Bed-Exit / Leaning Anomaly)
+            phase = 'WARNING';
+            statusColor = '#f59e0b';
+            tInterpolate = (cycle - 4.0) / 3.5;
+            riskScore = 55.0 + tInterpolate * 22.0 + Math.sin(cycle * 5) * 4.0;
+
+            // Lean forward and bend knees
+            headX = (W * 0.55) - tInterpolate * 65;
+            headY = 65 + tInterpolate * 35;
+            spineX = (W * 0.55) - tInterpolate * 45;
+            spineY = 100 + tInterpolate * 20;
+            hipX = (W * 0.55) - tInterpolate * 25;
+            hipY = 135 + tInterpolate * 15;
+            leftShoulderX = headX - 15;
+            rightShoulderX = headX + 15;
+            leftHandX = headX - 25;
+            leftHandY = headY + 35;
+            rightHandX = headX + 30;
+            rightHandY = headY + 25;
+
+            if (statusPill) {
+                statusPill.textContent = '● WARNING';
+                statusPill.style.background = '#f59e0b';
+                statusPill.style.boxShadow = '0 0 10px rgba(245, 158, 11, 0.6)';
+            }
+            if (riskPill) {
+                riskPill.textContent = 'Risk: ' + riskScore.toFixed(1) + '%';
+                riskPill.style.background = 'rgba(245, 158, 11, 0.2)';
+                riskPill.style.color = '#fde68a';
+                riskPill.style.borderColor = 'rgba(245, 158, 11, 0.4)';
+            }
+            if (noteCard) {
+                noteCard.style.borderLeftColor = '#f59e0b';
+                const mark = noteCard.querySelector('.alert-mark');
+                if (mark) {
+                    mark.textContent = '⚠️';
+                    mark.style.background = 'rgba(245, 158, 11, 0.2)';
+                    mark.style.color = '#f59e0b';
+                }
+            }
+            if (noteTitle) noteTitle.textContent = 'WARNING: Bed-Exit Hazard';
+            if (noteDesc) noteDesc.textContent = 'Bed Zone · Rapid angle shift detected · Pre-warning dispatched';
+
+        } else {
+            // PHASE 3: EMERGENCY (Sudden Catastrophic Fall onto Floor)
+            phase = 'EMERGENCY';
+            statusColor = '#ef4444';
+            tInterpolate = Math.min(1.0, (cycle - 7.5) / 1.5);
+            riskScore = 98.3;
+
+            // Rapid horizontal fall onto floor
+            headX = W * 0.38;
+            headY = H - 55 + Math.sin(cycle * 4) * 2;
+            spineX = W * 0.48;
+            spineY = H - 52;
+            hipX = W * 0.58;
+            hipY = H - 48;
+            leftKneeX = W * 0.68;
+            leftKneeY = H - 44;
+            rightKneeX = W * 0.70;
+            rightKneeY = H - 40;
+            leftAnkleX = W * 0.78;
+            leftAnkleY = H - 42;
+            rightAnkleX = W * 0.82;
+            rightAnkleY = H - 38;
+
+            leftShoulderX = headX + 18;
+            leftShoulderY = headY - 8;
+            rightShoulderX = headX + 18;
+            rightShoulderY = headY + 8;
+            leftHandX = headX - 15;
+            leftHandY = headY + 10;
+            rightHandX = headX + 12;
+            rightHandY = headY + 14;
+
+            if (statusPill) {
+                statusPill.textContent = '● EMERGENCY';
+                statusPill.style.background = '#ef4444';
+                statusPill.style.boxShadow = '0 0 12px rgba(239, 68, 68, 0.8)';
+            }
+            if (riskPill) {
+                riskPill.textContent = 'Risk: 98.3% CRITICAL';
+                riskPill.style.background = 'rgba(239, 68, 68, 0.25)';
+                riskPill.style.color = '#fca5a5';
+                riskPill.style.borderColor = 'rgba(239, 68, 68, 0.5)';
+            }
+            if (noteCard) {
+                noteCard.style.borderLeftColor = '#ef4444';
+                const mark = noteCard.querySelector('.alert-mark');
+                if (mark) {
+                    mark.textContent = '🚨';
+                    mark.style.background = 'rgba(239, 68, 68, 0.2)';
+                    mark.style.color = '#ef4444';
+                }
+            }
+            if (noteTitle) noteTitle.textContent = 'EMERGENCY: Fall Detected';
+            if (noteDesc) noteDesc.textContent = 'Living Room · 98.3% BiLSTM Risk · Telegram Snapshot Sent';
+        }
+
+        // Draw bounding box
+        const minX = Math.min(headX, leftHandX, rightHandX, leftAnkleX) - 16;
+        const maxX = Math.max(headX, leftHandX, rightHandX, rightAnkleX) + 16;
+        const minY = Math.min(headY - 14, leftShoulderY, rightShoulderY) - 8;
+        const maxY = Math.max(leftAnkleY, rightAnkleY, hipY) + 8;
+
+        ctx.strokeStyle = statusColor;
+        ctx.lineWidth = 1.5;
+        ctx.strokeRect(minX, minY, maxX - minX, maxY - minY);
+
+        // Bounding box corner accents
+        const cornerLen = 8;
+        ctx.lineWidth = 3;
+        // Top-left
+        ctx.beginPath(); ctx.moveTo(minX, minY + cornerLen); ctx.lineTo(minX, minY); ctx.lineTo(minX + cornerLen, minY); ctx.stroke();
+        // Top-right
+        ctx.beginPath(); ctx.moveTo(maxX - cornerLen, minY); ctx.lineTo(maxX, minY); ctx.lineTo(maxX, minY + cornerLen); ctx.stroke();
+        // Bottom-left
+        ctx.beginPath(); ctx.moveTo(minX, maxY - cornerLen); ctx.lineTo(minX, maxY); ctx.lineTo(minX + cornerLen, maxY); ctx.stroke();
+        // Bottom-right
+        ctx.beginPath(); ctx.moveTo(maxX - cornerLen, maxY); ctx.lineTo(maxX, maxY); ctx.lineTo(maxX, maxY - cornerLen); ctx.stroke();
+
+        // Draw Skeleton Bones
+        ctx.strokeStyle = statusColor;
+        ctx.lineWidth = 2.5;
+        ctx.lineCap = 'round';
+
+        function drawBone(x1, y1, x2, y2) {
+            ctx.beginPath();
+            ctx.moveTo(x1, y1);
+            ctx.lineTo(x2, y2);
+            ctx.stroke();
+        }
+
+        // Torso & head
+        drawBone(headX, headY, spineX, spineY);
+        drawBone(spineX, spineY, hipX, hipY);
+        // Shoulders & Arms
+        drawBone(leftShoulderX, leftShoulderY, rightShoulderX, rightShoulderY);
+        drawBone(leftShoulderX, leftShoulderY, leftHandX, leftHandY);
+        drawBone(rightShoulderX, rightShoulderY, rightHandX, rightHandY);
+        // Legs
+        drawBone(hipX, hipY, leftKneeX, leftKneeY);
+        drawBone(leftKneeX, leftKneeY, leftAnkleX, leftAnkleY);
+        drawBone(hipX, hipY, rightKneeX, rightKneeY);
+        drawBone(rightKneeX, rightKneeY, rightAnkleX, rightAnkleY);
+
+        // Draw Skeleton Joints (MediaPipe keypoints)
+        const joints = [
+            [headX, headY, 6],
+            [spineX, spineY, 4],
+            [hipX, hipY, 5],
+            [leftShoulderX, leftShoulderY, 4],
+            [rightShoulderX, rightShoulderY, 4],
+            [leftHandX, leftHandY, 4],
+            [rightHandX, rightHandY, 4],
+            [leftKneeX, leftKneeY, 4],
+            [rightKneeX, rightKneeY, 4],
+            [leftAnkleX, leftAnkleY, 4],
+            [rightAnkleX, rightAnkleY, 4]
+        ];
+
+        joints.forEach(([jx, jy, r]) => {
+            ctx.beginPath();
+            ctx.arc(jx, jy, r, 0, Math.PI * 2);
+            ctx.fillStyle = '#ffffff';
+            ctx.fill();
+            ctx.lineWidth = 2;
+            ctx.strokeStyle = statusColor;
+            ctx.stroke();
+        });
+
+        // Interactive mouse crosshair if hovering
+        if (mouseX > 0 && mouseY > 0) {
+            ctx.strokeStyle = 'rgba(56, 189, 248, 0.7)';
+            ctx.lineWidth = 1;
+            ctx.setLineDash([4, 4]);
+            ctx.beginPath(); ctx.moveTo(mouseX, 0); ctx.lineTo(mouseX, H); ctx.stroke();
+            ctx.beginPath(); ctx.moveTo(0, mouseY); ctx.lineTo(W, mouseY); ctx.stroke();
+            ctx.setLineDash([]);
+
+            ctx.fillStyle = '#38bdf8';
+            ctx.font = '10px JetBrains Mono, monospace';
+            ctx.fillText('INSPECT: [X:' + Math.round(mouseX) + ', Y:' + Math.round(mouseY) + ']', mouseX + 8, mouseY - 8);
+        }
+
+        // Live realistic CPU FPS fluctuation
+        if (fpsCounter && Math.floor(elapsed * 2) % 3 === 0) {
+            const simulatedFps = (38.2 + Math.sin(elapsed * 4) * 1.6).toFixed(1);
+            fpsCounter.textContent = simulatedFps + ' FPS (CPU)';
+        }
+
+        requestAnimationFrame(render);
+    }
+
+    requestAnimationFrame(render);
 }
