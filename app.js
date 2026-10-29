@@ -1974,47 +1974,52 @@ function initAuthSystem() {
         });
     }
 
-    // 3. Handle 1-Click Caregiver Demo Access
-    const btnDemo = document.getElementById('btn-demo-caregiver');
-    if (btnDemo) {
-        btnDemo.addEventListener('click', async () => {
-            showBanner("Logging in as Verified Demo Caregiver...", false);
-            try {
-                const resp = await fetch('/api/auth/login', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ email: 'caregiver@family.org', password: 'password123' })
-                });
-                const data = await resp.json();
-                if (resp.ok && data.user) {
-                    setStoredUser(data.user);
-                } else {
-                    setStoredUser({
-                        id: 'usr_demo_1',
-                        name: 'Sarah Connor',
-                        email: 'caregiver@family.org',
-                        role: 'Family Member / Guardian'
-                    });
-                }
-            } catch (e) {
-                setStoredUser({
-                    id: 'usr_demo_1',
-                    name: 'Sarah Connor',
-                    email: 'caregiver@family.org',
-                    role: 'Family Member / Guardian'
-                });
-            }
+    // 3. Live Animated Ticker & Interactive PPT Status Pills
+    function initLandingLiveDynamics() {
+        const ts1 = document.getElementById('landing-tick-ts-1');
+        const ts2 = document.getElementById('landing-tick-ts-2');
+        const ts3 = document.getElementById('landing-tick-ts-3');
 
-            setTimeout(() => {
-                closeAuthModal();
-                const landingView = document.getElementById('view-landing');
-                const appConsoleView = document.getElementById('view-app-console');
-                if (landingView) landingView.style.display = 'none';
-                if (appConsoleView) appConsoleView.style.display = 'block';
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            }, 450);
+        function updateLandingTimes() {
+            if (!ts3) return;
+            const now = new Date();
+            const pad = (n) => String(n).padStart(2, '0');
+            const h = pad(now.getHours());
+            const m = pad(now.getMinutes());
+            const s = pad(now.getSeconds());
+
+            ts3.textContent = `${h}:${m}:${s}`;
+            
+            // Prior events slightly in the past
+            const prevSec = (now.getSeconds() + 35) % 60;
+            const prevMin = (now.getMinutes() === 0 ? 59 : now.getMinutes() - 1);
+            ts2.textContent = `${h}:${pad(prevMin)}:${pad(prevSec)}`;
+            
+            const earlyMin = (prevMin <= 3 ? 55 : prevMin - 3);
+            if (ts1) ts1.textContent = `${h}:${pad(earlyMin)}:10`;
+        }
+
+        if (ts3) {
+            updateLandingTimes();
+            setInterval(updateLandingTimes, 2500);
+        }
+
+        // Interactive status pills
+        document.querySelectorAll('.glass-status-pill').forEach(pill => {
+            pill.addEventListener('click', () => {
+                const type = pill.getAttribute('data-status-preview');
+                if (type === 'safe') {
+                    showBanner("● [SAFE LOG] Posture classified as Normal/Sitting (8% hazard index). Continuous on-device sentinel logging active.", false);
+                } else if (type === 'warn') {
+                    showBanner("▲ [WARNING CHECK-IN] Rapid positional shift detected (42% hazard index). Caregiver audit alert prepared.", false);
+                } else if (type === 'emerg') {
+                    showBanner("🚨 [EMERGENCY SENTINEL DISPATCH] Ground impact signature confirmed! Automated Telegram webhook dispatched in <200ms.", true);
+                }
+            });
         });
     }
+
+    initLandingLiveDynamics();
 
     // 4. Handle Sign Out (Both Navbar & App Return Bar)
     function handleSignOut() {
