@@ -1,0 +1,8 @@
+# Environment & local secrets
+.env
+.env.local
+
+# OS Metadata
+.DS_Store
+Thumbs.db
+*.log

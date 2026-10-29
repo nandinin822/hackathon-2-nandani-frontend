@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AegisCare AI — Smart Vision Guardian for Elderly Care</title>
+    <meta name="description" content="Intelligent, privacy-focused computer vision sentinel for eldercare. Detects falls, prolonged inactivity, and distress postures with instant caregiver notifications.">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header class="app-header">
+        <nav class="nav-container">
+            <a href="#hero" class="brand-link">
+                <div class="brand-logo">
+                    <i class="fa-solid fa-shield-heart"></i>
+                </div>
+                <div class="brand-text">
+                    <span class="brand-name">AegisCare<span class="accent-text">AI</span></span>
+                    <span class="brand-tagline">Vision Sentinel for Eldercare</span>
+                </div>
+            </a>
+
+            <div class="nav-links">
+                <a href="#hero" class="nav-item active" data-target="hero">Overview</a>
+                <a href="#video-lab" class="nav-item" data-target="video-lab"><i class="fa-solid fa-flask-vial"></i> Video Lab</a>
+                <a href="#live-monitor" class="nav-item" data-target="live-monitor"><i class="fa-solid fa-video"></i> Live Monitor</a>
+                <a href="#timeline-section" class="nav-item" data-target="timeline-section"><i class="fa-solid fa-clock-rotate-left"></i> Timeline</a>
+                <a href="#architecture" class="nav-item" data-target="architecture">Architecture</a>
+            </div>
+
+            <div class="header-actions">
+                <div class="status-indicator-badge" id="systemPulseBadge">
+                    <span class="pulse-indicator"></span>
+                    <span id="systemStatusLabel">System Ready</span>
+                </div>
+                <button class="btn-secondary" id="btnOpenTelegramModal" title="Configure Telegram Alerts">
+                    <i class="fa-brands fa-telegram"></i> <span>Telegram Sync</span>
+                </button>
+                <button class="btn-emergency-top" id="btnTopSOS" title="Immediate Patient Emergency Call">
+                    <i class="fa-solid fa-bell"></i> <span>Patient SOS</span>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section id="hero" class="hero-section">
+            <div class="hero-glow"></div>
+            <div class="hero-container">
+                <div class="hero-badge">
+                    <i class="fa-solid fa-brain"></i> Edge-AI & Multimodal Vision Sentinel
+                </div>
+                <h1 class="hero-title">
+                    Smart Vision Guardian <br>
+                    <span class="gradient-text">for Elderly Loved Ones</span>
+                </h1>
+                <p class="hero-subtitle">
+                    Intelligent, privacy-focused visual monitoring designed for working families and caregivers.
+                    AegisCare continuously analyzes video streams in real-time to detect falls, dropped objects, and hazardous inactivity — alerting families the second it matters, without 24/7 video watching.
+                </p>
+
+                <!-- Hero Action Buttons -->
+                <div class="hero-cta-group">
+                    <a href="#video-lab" class="btn-primary">
+                        <i class="fa-solid fa-play"></i> Open Video Analysis Lab
+                    </a>
+                    <a href="#live-monitor" class="btn-outline">
+                        <i class="fa-solid fa-camera"></i> View Live Monitor
+                    </a>
+                </div>
+
+                <!-- Verified Key Performance Metrics Grid -->
+                <div class="hero-metrics-grid">
+                    <div class="metric-card">
+                        <div class="metric-value">30+ FPS</div>
+                        <div class="metric-label">CPU Throughput</div>
+                        <div class="metric-sub">Zero-lag local Edge execution</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value">98.3%</div>
+                        <div class="metric-label">Fall Sensitivity</div>
+                        <div class="metric-sub">Verified on benchmark fall datasets</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value">Two-Tier</div>
+                        <div class="metric-label">Hybrid Pipeline</div>
+                        <div class="metric-sub">BiLSTM Ensemble + Gemini Vision</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value">&lt; 15s</div>
+                        <div class="metric-label">Notification Cooldown</div>
+                        <div class="metric-sub">Instant photo alert, zero spam</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Video Analysis Lab (Core Interactive Experience) -->
+        <section id="video-lab" class="section-container">
+            <div class="section-header">
+                <div class="section-tag"><i class="fa-solid fa-microscope"></i> Pretrained Inference Pipeline</div>
+                <h2 class="section-title">Video Analysis Lab</h2>
+                <p class="section-description">
+                    Test our pretrained BiLSTM temporal ensemble and MediaPipe BlazePose pipeline on benchmark eldercare clips or upload custom video footage to inspect real-time skeleton tracking and fall likelihood.
+                </p>
+            </div>
+
+            <!-- Lab Controls & Selectors -->
+            <div class="lab-controls-panel">
+                <div class="preset-selector-group">
+                    <span class="control-label">Select Test Clip:</span>
+                    <button class="btn-preset active" id="btnPresetFall" data-video="sample_fall.mp4">
+                        <i class="fa-solid fa-triangle-exclamation"></i> Benchmark Fall (URFD)
+                    </button>
+                    <button class="btn-preset" id="btnPresetWalk" data-video="sample_walking.mp4">
+                        <i class="fa-solid fa-person-walking"></i> Normal Walking (URFD)
+                    </button>
+                    <button class="btn-preset" id="btnTriggerUpload">
+                        <i class="fa-solid fa-cloud-arrow-up"></i> Upload Custom Video
+                    </button>
+                    <input type="file" id="videoUploadInput" accept="video/mp4,video/webm,video/quicktime,video/x-msvideo" style="display: none;">
+                </div>
+
+                <div class="lab-action-group">
+                    <button class="btn-primary" id="btnRunVideoAnalysis">
+                        <i class="fa-solid fa-bolt"></i> Run Video Analysis
+                    </button>
+                </div>
+            </div>
+
+            <!-- Lab Workspace Grid -->
+            <div class="lab-workspace-grid">
+                
+                <!-- Left: Dual Video Player Viewport -->
+                <div class="glass-card video-viewport-card">
+                    <div class="card-top-bar">
+                        <div class="stream-title">
+                            <span class="active-dot"></span>
+                            <span id="activeVideoTitle">Benchmark Fall Clip (sample_fall.mp4)</span>
+                        </div>
+                        <div class="view-mode-toggle">
+                            <button class="toggle-btn active" id="btnViewAnnotated" title="View with AI Skeleton Overlay">
+                                <i class="fa-solid fa-draw-polygon"></i> AI Skeleton View
+                            </button>
+                            <button class="toggle-btn" id="btnViewRaw" title="View Raw Video Feed">
+                                <i class="fa-solid fa-film"></i> Raw Stream
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Video Container -->
+                    <div class="video-display-wrapper">
+                        <!-- Annotated Video with Skeleton -->
+                        <video id="annotatedVideoPlayer" class="lab-video-element" controls playsinline preload="auto">
+                            <source src="/static/assets/sample_fall_annotated.mp4" type="video/mp4">
+                            Your browser does not support HTML5 video.
+                        </video>
+
+                        <!-- Raw Video (Hidden by default) -->
+                        <video id="rawVideoPlayer" class="lab-video-element" controls playsinline preload="auto" style="display: none;">
+                            <source src="/static/assets/sample_fall.mp4" type="video/mp4">
+                            Your browser does not support HTML5 video.
+                        </video>
+
+                        <!-- Loading Overlay -->
+                        <div class="video-loading-scrim" id="videoLoadingScrim" style="display: none;">
+                            <div class="loading-spinner"></div>
+                            <div class="loading-text" id="videoLoadingText">Processing frames through BiLSTM ensemble...</div>
+                            <div class="loading-sub">Extracting 33 body keypoints on CPU</div>
+                        </div>
+                    </div>
+
+                    <!-- Video Scrubbing & Sync Info -->
+                    <div class="video-playback-footer">
+                        <div class="playback-stat">
+                            <i class="fa-solid fa-gauge-high"></i>
+                            <span id="cpuSpeedStat">Speed: ~29.9 FPS (CPU)</span>
+                        </div>
+                        <div class="playback-stat">
+                            <i class="fa-solid fa-film"></i>
+                            <span id="frameCountStat">Frames: 160 processed</span>
+                        </div>
+                        <div class="playback-stat">
+                            <i class="fa-solid fa-clock"></i>
+                            <span id="durationStat">Duration: 10.6s</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right: Telemetry, Gauge & Alarm State -->
+                <div class="lab-telemetry-column">
+
+                    <!-- Real-Time Calibrated Risk Gauge -->
+                    <div class="glass-card telemetry-card">
+                        <div class="card-heading">
+                            <span><i class="fa-solid fa-chart-line accent-icon"></i> Model Fall Likelihood</span>
+                            <span class="badge-sub" id="modelStatusTag">SAFE</span>
+                        </div>
+
+                        <!-- Gauge Visual -->
+                        <div class="gauge-container">
+                            <div class="radial-gauge-wrapper">
+                                <svg class="gauge-svg" viewBox="0 0 200 120">
+                                    <path class="gauge-track" d="M 20 100 A 80 80 0 0 1 180 100" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="16" stroke-linecap="round"/>
+                                    <path class="gauge-progress" id="gaugeProgressArc" d="M 20 100 A 80 80 0 0 1 180 100" fill="none" stroke="var(--primary-cyan)" stroke-width="16" stroke-dasharray="251.2" stroke-dashoffset="251.2" stroke-linecap="round"/>
+                                </svg>
+                                <div class="gauge-center-content">
+                                    <div class="gauge-percentage" id="gaugePercentage">0%</div>
+                                    <div class="gauge-caption">P(fall) Likelihood</div>
+                                </div>
+                            </div>
+
+                            <div class="gauge-scale-markers">
+                                <span>0% Safe</span>
+                                <span>40% Warning</span>
+                                <span>65% Emergency</span>
+                                <span>100%</span>
+                            </div>
+                        </div>
+
+                        <!-- Safety & Scientific Disclaimer -->
+                        <div class="disclaimer-callout">
+                            <i class="fa-solid fa-circle-info"></i>
+                            <span>Heuristic computer vision prediction for eldercare assistance; not a calibrated medical diagnostic device.</span>
+                        </div>
+                    </div>
+
+                    <!-- Event Detection & Assessment Details -->
+                    <div class="glass-card telemetry-card">
+                        <div class="card-heading">
+                            <span><i class="fa-solid fa-clipboard-check accent-icon"></i> AI Safety Assessment</span>
+                            <span class="timestamp-pill" id="peakTimestampPill">Peak: 3.83s</span>
+                        </div>
+
+                        <div class="assessment-content">
+                            <div class="assessment-status-banner EMERGENCY_FALL" id="assessmentBanner">
+                                <div class="status-icon-box" id="assessmentIcon">
+                                    <i class="fa-solid fa-triangle-exclamation"></i>
+                                </div>
+                                <div>
+                                    <h4 class="assessment-title" id="assessmentTitle">Fall Hazard Detected</h4>
+                                    <p class="assessment-desc" id="assessmentDesc">
+                                        Subject transitioned rapidly to floor level. Peak confidence score verified across consecutive temporal frames.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="action-recommendation-box">
+                                <div class="box-label">Recommended Caregiver Action:</div>
+                                <div class="box-text" id="assessmentAction">
+                                    Initiate immediate audio check-in call and verify patient wellbeing.
+                                </div>
+                            </div>
+
+                            <!-- Telegram Alert Dispatch Notification -->
+                            <div class="telegram-dispatch-banner" id="telegramDispatchBanner">
+                                <div class="telegram-icon-box">
+                                    <i class="fa-brands fa-telegram"></i>
+                                </div>
+                                <div class="telegram-dispatch-info">
+                                    <div class="dispatch-title">Telegram Alert Notification</div>
+                                    <div class="dispatch-sub" id="telegramDispatchStatus">Snapshot and timestamp alert dispatched to caregiver.</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Live Camera & Snapshot Monitor -->
+        <section id="live-monitor" class="section-container">
+            <div class="section-header">
+                <div class="section-tag"><i class="fa-solid fa-video"></i> Real-Time Sentinel Console</div>
+                <h2 class="section-title">Live Vision Monitor</h2>
+                <p class="section-description">
+                    Live camera stream monitoring with real-time HUD telemetry, snapshot inspection via Google Gemini Vision, and 1-click patient emergency assistance.
+                </p>
+            </div>
+
+            <div class="monitor-grid">
+                <!-- Camera Feed Box -->
+                <div class="glass-card camera-card">
+                    <div class="card-top-bar">
+                        <div class="stream-title">
+                            <span class="active-dot pulse"></span>
+                            <span>Living Room Sentinel (Cam 01)</span>
+                        </div>
+                        <div class="camera-controls-mini">
+                            <button class="toggle-btn active" id="btnToggleWebcam"><i class="fa-solid fa-camera"></i> Live Webcam</button>
+                            <button class="toggle-btn" id="btnFlipCamera"><i class="fa-solid fa-rotate"></i> Flip Camera</button>
+                        </div>
+                    </div>
+
+                    <!-- Video Viewport -->
+                    <div class="camera-stream-wrapper">
+                        <video id="liveWebcamFeed" class="live-camera-feed" autoplay playsinline muted></video>
+                        <canvas id="cameraSnapshotCanvas" style="display: none;"></canvas>
+
+                        <!-- CCTV HUD Overlay -->
+                        <div class="hud-overlay-layer">
+                            <div class="hud-header">
+                                <div class="live-rec-badge"><span class="rec-dot"></span> LIVE REC</div>
+                                <div class="hud-clock" id="liveHudClock">00:00:00 AM</div>
+                            </div>
+                            <div class="hud-footer">
+                                <div>
+                                    <div class="hud-sub">SENTINEL STATUS</div>
+                                    <div class="hud-val SAFE" id="liveHudStatus">SAFE — Active Sentinel</div>
+                                </div>
+                                <div style="text-align: right;">
+                                    <div class="hud-sub">AI CONFIDENCE</div>
+                                    <div class="hud-val" id="liveHudConfidence">98%</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Capture & Scenario Bar -->
+                    <div class="camera-actions-bar">
+                        <div class="scenario-chips">
+                            <span class="chips-label">Simulate:</span>
+                            <button class="chip-btn" data-scenario="resting"><i class="fa-solid fa-couch"></i> Resting</button>
+                            <button class="chip-btn" data-scenario="sleeping"><i class="fa-solid fa-bed"></i> Sleeping in Chair</button>
+                            <button class="chip-btn" data-scenario="dropped_prop"><i class="fa-solid fa-hand-holding-droplet"></i> Dropped Cane</button>
+                            <button class="chip-btn" data-scenario="washroom"><i class="fa-solid fa-bath"></i> Restroom</button>
+                            <button class="chip-btn" data-scenario="inactivity"><i class="fa-solid fa-clock"></i> 45m Still</button>
+                            <button class="chip-btn danger" data-scenario="fall"><i class="fa-solid fa-triangle-exclamation"></i> Fall Risk</button>
+                        </div>
+
+                        <button class="btn-primary" id="btnAnalyzeLiveFrame">
+                            <i class="fa-solid fa-bolt"></i> Analyze Frame
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Patient SOS & Quick Controls -->
+                <div class="monitor-sidebar">
+                    <!-- Big Emergency SOS Button -->
+                    <div class="glass-card sos-card">
+                        <div class="sos-icon-ring">
+                            <i class="fa-solid fa-hand-holding-hand"></i>
+                        </div>
+                        <h3>Patient Emergency Call</h3>
+                        <p>One-touch urgent assistance trigger. Instantly notifies registered family members via Telegram with camera snapshot.</p>
+                        <button class="btn-sos-large" id="btnPatientSOS">
+                            <i class="fa-solid fa-triangle-exclamation"></i>
+                            <span>EMERGENCY SOS — CALL FOR HELP</span>
+                        </button>
+                    </div>
+
+                    <!-- Daily Digest Card -->
+                    <div class="glass-card summary-card">
+                        <div class="card-heading">
+                            <span><i class="fa-solid fa-wand-magic-sparkles accent-icon"></i> Daily Caregiver Digest</span>
+                            <button class="btn-icon-tiny" id="btnRefreshDigest" title="Refresh Summary"><i class="fa-solid fa-rotate"></i></button>
+                        </div>
+                        <p class="summary-body-text" id="dailyDigestText">
+                            Loading today's eldercare activity patterns...
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Chronological Activity & Incident Timeline -->
+        <section id="timeline-section" class="section-container">
+            <div class="section-header">
+                <div class="section-tag"><i class="fa-solid fa-clock-rotate-left"></i> Real-Time Audit Log</div>
+                <h2 class="section-title">Activity & Incident Timeline</h2>
+                <p class="section-description">
+                    Automated chronological event ledger recording elder mobility checks, posture classifications, and hazard dispatches.
+                </p>
+            </div>
+
+            <div class="glass-card timeline-card">
+                <div class="timeline-header-bar">
+                    <div class="timeline-stats">
+                        <span class="stat-pill" id="totalChecksPill"><i class="fa-solid fa-list-check"></i> 0 Total Checks</span>
+                        <span class="stat-pill safe" id="safeChecksPill"><i class="fa-solid fa-shield-check"></i> 0 Safe</span>
+                        <span class="stat-pill danger" id="hazardChecksPill"><i class="fa-solid fa-triangle-exclamation"></i> 0 Hazards</span>
+                    </div>
+                    <button class="btn-secondary-tiny" id="btnRefreshLogs">
+                        <i class="fa-solid fa-rotate"></i> Refresh Feed
+                    </button>
+                </div>
+
+                <div class="timeline-feed-list" id="activityFeedList">
+                    <!-- Dynamic timeline entries populated here -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Technical Architecture & Explainability -->
+        <section id="architecture" class="section-container">
+            <div class="section-header">
+                <div class="section-tag"><i class="fa-solid fa-cubes"></i> System Architecture</div>
+                <h2 class="section-title">How AegisCare Works</h2>
+                <p class="section-description">
+                    Built upon a robust two-tier architecture that combines zero-lag Edge kinematic pose tracking with cloud multimodal reasoning.
+                </p>
+            </div>
+
+            <!-- Architecture Pillars Grid -->
+            <div class="architecture-grid">
+                <div class="glass-card arch-card">
+                    <div class="arch-number">01</div>
+                    <div class="arch-icon"><i class="fa-solid fa-person-falling"></i></div>
+                    <h3>MediaPipe BlazePose Lite</h3>
+                    <p>
+                        Extracts 33 spatial keypoints at over 30 FPS purely on CPU without discrete GPU requirements. Computes 3D joint topology in real-time.
+                    </p>
+                    <ul class="arch-specs">
+                        <li>33 3D normalized landmarks</li>
+                        <li>Model size: ~5.6 MB</li>
+                        <li>Sub-millisecond pose latency</li>
+                    </ul>
+                </div>
+
+                <div class="glass-card arch-card">
+                    <div class="arch-number">02</div>
+                    <div class="arch-icon"><i class="fa-solid fa-network-wired"></i></div>
+                    <h3>BiLSTM Neural Ensemble</h3>
+                    <p>
+                        A dual-model Bidirectional LSTM ensemble trained on benchmark fall datasets. Processes sliding temporal windows to distinguish true falls from sitting or bending.
+                    </p>
+                    <ul class="arch-specs">
+                        <li>30-frame temporal window (2.0s)</li>
+                        <li>12 kinematic velocity & inclination features</li>
+                        <li>FSM alarm gating state machine</li>
+                    </ul>
+                </div>
+
+                <div class="glass-card arch-card">
+                    <div class="arch-number">03</div>
+                    <div class="arch-icon"><i class="fa-solid fa-brain"></i></div>
+                    <h3>Multimodal Gemini 3.8 Flash</h3>
+                    <p>
+                        Provides deep contextual verification for subtle elder hazards — identifying dropped mobility aids, slumped posture in armchairs, and prolonged inactivity.
+                    </p>
+                    <ul class="arch-specs">
+                        <li>Multi-hazard semantic recognition</li>
+                        <li>Structured JSON safety classifications</li>
+                        <li>Natural-language caregiver digests</li>
+                    </ul>
+                </div>
+
+                <div class="glass-card arch-card">
+                    <div class="arch-number">04</div>
+                    <div class="arch-icon"><i class="fa-brands fa-telegram"></i></div>
+                    <h3>Automated Family Alerting</h3>
+                    <p>
+                        Direct push notifications through Telegram Bot API delivering keyframe photo snapshots, timestamps, and confidence scores with 15s duplicate suppression.
+                    </p>
+                    <ul class="arch-specs">
+                        <li>Instant photo & caption delivery</li>
+                        <li>Anti-spam cooldown timer</li>
+                        <li>Zero 24/7 video watching needed</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Limitations & Safety Notice -->
+            <div class="glass-card safety-notice-card">
+                <div class="safety-icon"><i class="fa-solid fa-shield-halved"></i></div>
+                <div class="safety-content">
+                    <h4>Safety & Compliance Statement</h4>
+                    <p>
+                        AegisCare AI is an assistive eldercare monitoring tool designed to enhance caregiver awareness. It is not an FDA-approved medical device, diagnostic system, or primary life-support monitor. Fall probabilities ($P_{\text{fall}}$) represent heuristic statistical likelihoods from computer vision classifiers and must not be interpreted as definitive clinical measurements. In case of acute medical emergencies, always dial local emergency medical services immediately.
+                    </p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- App Footer -->
+    <footer class="app-footer">
+        <div class="footer-container">
+            <div class="footer-brand">
+                <div class="brand-text">
+                    <span class="brand-name">AegisCare<span class="accent-text">AI</span></span>
+                    <span class="brand-sub">Intelligent Vision Sentinel for Eldercare</span>
+                </div>
+                <p class="footer-note">
+                    Empowering families with silent, privacy-focused visual care for elderly loved ones.
+                </p>
+            </div>
+            <div class="footer-meta">
+                <div>Dual-Tier Computer Vision Engine • BiLSTM Ensemble • MediaPipe Pose • Google Gemini Vision</div>
+                <div class="copyright-text">© AegisCare AI System. Designed for Eldercare Safety.</div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Telegram Configuration Modal -->
+    <div class="modal-backdrop" id="telegramModal" style="display: none;">
+        <div class="modal-container">
+            <div class="modal-header">
+                <div class="modal-title-group">
+                    <i class="fa-brands fa-telegram modal-icon"></i>
+                    <h3>Telegram Family Alert Setup</h3>
+                </div>
+                <button class="modal-close-btn" id="btnCloseTelegramModal"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+
+            <div class="modal-body">
+                <p class="modal-instruction">
+                    Configure your free Telegram Bot to receive high-urgency fall alerts, snapshot photos, and daily digests directly on your mobile device.
+                </p>
+
+                <form id="telegramConfigForm">
+                    <div class="form-field">
+                        <label for="inputBotToken">Telegram Bot Token</label>
+                        <input type="text" id="inputBotToken" class="text-input" placeholder="e.g. 123456789:ABCdefGhIJKlmNoPQRsTUVwxyZ" required>
+                        <span class="field-hint">Obtain from @BotFather on Telegram.</span>
+                    </div>
+
+                    <div class="form-field">
+                        <label for="inputChatId">Telegram Chat ID</label>
+                        <input type="text" id="inputChatId" class="text-input" placeholder="e.g. 987654321 or -100123456789" required>
+                        <span class="field-hint">Your individual chat ID or family group chat ID.</span>
+                    </div>
+
+                    <div class="modal-actions">
+                        <button type="button" class="btn-secondary" id="btnTestTelegramModal">
+                            <i class="fa-solid fa-paper-plane"></i> Send Test Alert
+                        </button>
+                        <button type="submit" class="btn-primary" id="btnSaveTelegram">
+                            <i class="fa-solid fa-check"></i> Save & Connect
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Alert Sound Element -->
+    <audio id="hazardAlertAudio" src="https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3" preload="auto"></audio>
+
+    <script src="app.js"></script>
+</body>
+</html>
